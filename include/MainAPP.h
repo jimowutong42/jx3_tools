@@ -23,7 +23,7 @@ private:
     QSystemTrayIcon* tray;  // 托盘对象
     QMenu* menu;  // 右键菜单对象
     QMenu* funcMenu;  // 右键菜单-功能菜单对象
-    QAction* j3pzCalcAction;  // 右键菜单-功能菜单-代填计算器
+    QAction* j3pzCalcAction;  // 右键菜单-功能菜单-代按计算器
     QString sheet_name = QString("DPS计算器");  // 计算器工作簿名称
     QAction* settingAction;  // 右键菜单-设置
     QAction* quitAction;  // 右键菜单-退出
@@ -38,6 +38,6 @@ private:
 private slots:  // 槽函数
     void onIconClicked(QSystemTrayIcon::ActivationReason reason);  // 鼠标点击图标
     void onClipboradChanged();  // 剪贴板事件
-    void j3pzCalc(bool checked);  // 代填计算器
+    void j3pzCalc(bool checked);  // 代按计算器
     void setting();  // 设置
 };

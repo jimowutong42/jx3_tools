@@ -299,4 +299,7 @@
       <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="README.md" />
+  </ItemGroup>
 </Project>

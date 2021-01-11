@@ -20,7 +20,7 @@ int MainAPP::initUI() {
 }
 
 void MainAPP::createActions() {
-    j3pzCalcAction = new QAction("代填计算器", this);
+    j3pzCalcAction = new QAction("代按计算器", this);
     j3pzCalcAction->setToolTip("请把本软件放在计算器xlsx同目录下\n目前仅支持天罗计算器");
     j3pzCalcAction->setCheckable(true);
     connect(j3pzCalcAction, &QAction::toggled, this, &MainAPP::j3pzCalc);
@@ -74,7 +74,7 @@ void MainAPP::j3pzCalc(bool checked) {
         tray->showMessage(description, "剪贴板监听中\n配装器导出数据-复制为JSON即可", icon);
     } else {
         clipbordListenerOFF();
-        tray->showMessage(description, "代填计算器——已关闭", icon);
+        tray->showMessage(description, "代按计算器——已关闭", icon);
     }
 }
 
@@ -96,7 +96,7 @@ void MainAPP::onClipboradChanged() {
         QStringList xlsx_files = xlsx_dir.entryList(QStringList("*.xlsx"), QDir::Files | QDir::Readable);
         if (xlsx_files.count() == 1) {  // TODO 多个xlsx 文件名检验 版本检验 switch
             QString dps = APP_j3pzCalc::APP_j3pzCalc(xlsx_files[0], sheet_name, text);
-            tray->showMessage("代填计算器", dps, icon);
+            tray->showMessage("代按计算器", dps, icon);
         } else {
             tray->showMessage("找不到计算器Orz", "请将本exe和计算器xlsx放一起哦\n" + xlsx_files[0], icon);
         }
