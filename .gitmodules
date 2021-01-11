@@ -1,0 +1,3 @@
+[submodule ".\\3rdparty\\QtXlsxWriter"]
+	path = .\\3rdparty\\QtXlsxWriter
+	url = https://github.com/dbzhang800/QtXlsxWriter.git

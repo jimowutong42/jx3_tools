@@ -1,0 +1,302 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Form Files">
+      <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
+      <Extensions>ui</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{D9D6E242-F8AF-46E4-B9FD-80ECBC20BA3E}</UniqueIdentifier>
+      <Extensions>qrc;*</Extensions>
+      <ParseFiles>false</ParseFiles>
+    </Filter>
+    <Filter Include="Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx">
+      <UniqueIdentifier>{91d79a4b-06d1-4146-aa7b-7efb166e4049}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx">
+      <UniqueIdentifier>{b8cb7964-31f3-48e0-8124-f51f368f7037}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <QtRcc Include="res\jx3_tools.qrc">
+      <Filter>Resource Files</Filter>
+    </QtRcc>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="res\jx3_tools.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\ptt.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\ptt.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxabstractooxmlfile.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxabstractsheet.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxcell.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxcellformula.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxcellrange.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxcellreference.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxchart.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxchartsheet.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxcolor.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxconditionalformatting.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxcontenttypes.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxdatavalidation.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxdocpropsapp.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxdocpropscore.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxdocument.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxdrawing.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxdrawinganchor.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxformat.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxmediafile.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxnumformatparser.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxrelationships.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxrichstring.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxsharedstrings.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxsimpleooxmlfile.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxstyles.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxtheme.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxutility.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxworkbook.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxworksheet.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxzipreader.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxzipwriter.cpp">
+      <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClCompile>
+    <ClCompile Include="src\APP_j3pzCalc.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MainAPP.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="include\MainAPP.h">
+      <Filter>Header Files</Filter>
+    </QtMoc>
+    <QtMoc Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxdocument.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </QtMoc>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="res\resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\APP_j3pzCalc.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxzipwriter_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxzipreader_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxworksheet_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxworksheet.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxworkbook_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxworkbook.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxutility_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxtheme_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxstyles_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxsimpleooxmlfile_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxsharedstrings_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxrichstring_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxrichstring.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxrelationships_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxnumformatparser_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxmediafile_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxglobal.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxformat_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxformat.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxdrawinganchor_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxdrawing_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxdocument_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxdocpropscore_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxdocpropsapp_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxdatavalidation_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxdatavalidation.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxcontenttypes_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxconditionalformatting_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxconditionalformatting.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxcolor_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxchartsheet_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxchartsheet.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxchart_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxchart.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxcellreference.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxcellrange.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxcellformula_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxcellformula.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxcell_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxcell.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxabstractsheet_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxabstractsheet.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxabstractooxmlfile_p.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+    <ClInclude Include="3rdparty\QtXlsxWriter\src\xlsx\xlsxabstractooxmlfile.h">
+      <Filter>Header Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
