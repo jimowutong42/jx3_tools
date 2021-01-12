@@ -98,7 +98,7 @@ void MainAPP::onClipboradChanged() {
             QString dps = APP_j3pzCalc::APP_j3pzCalc(xlsx_files[0], sheet_name, text);
             tray->showMessage("代按计算器", dps, icon);
         } else {
-            tray->showMessage("找不到计算器Orz", "请将本exe和计算器xlsx放一起哦\n" + xlsx_files[0], icon);
+            tray->showMessage("找不到计算器Orz", "请将本exe和计算器xlsx放一起哦", icon);
         }
     }
 }
