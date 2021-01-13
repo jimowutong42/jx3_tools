@@ -58,12 +58,12 @@
   </ItemDefinitionGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|Win32'" Label="QtSettings">
     <QtInstall>win32_msvc2019_static</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>axcontainer;core;gui;widgets</QtModules>
     <QtBuildConfig>debug</QtBuildConfig>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|Win32'" Label="QtSettings">
     <QtInstall>win32_msvc2019_static</QtInstall>
-    <QtModules>core;gui;widgets</QtModules>
+    <QtModules>axcontainer;core;gui;widgets</QtModules>
     <QtBuildConfig>release</QtBuildConfig>
   </PropertyGroup>
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.props')">

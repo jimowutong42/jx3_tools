@@ -8,6 +8,8 @@
 #include <QtCore/QVariant>
 #include <QtCore/QStringList>
 //#include <QtCore/QMetaType>
+#include <ActiveQt/QAxObject>
+#include <QtCore/QFileInfo>
 
 namespace APP_j3pzCalc {
     // TODO: class
