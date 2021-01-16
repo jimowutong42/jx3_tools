@@ -5,10 +5,7 @@
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenu>
 #include <QtWidgets/QSystemTrayIcon>
-#include <QtGui/QClipboard>
-#include <QtGui/QGuiApplication>
 #include <QtCore/QCoreApplication>
-#include <QtCore/QDIR>
 #include "..\include\APP_j3pzCalc.h" 
 
 class MainAPP : public QMainWindow {
@@ -24,20 +21,18 @@ private:
     QMenu* menu;  // 右键菜单对象
     QMenu* funcMenu;  // 右键菜单-功能菜单对象
     QAction* j3pzCalcAction;  // 右键菜单-功能菜单-代按计算器
-    QString sheet_name = QString("DPS计算器");  // 计算器工作簿名称
     QAction* settingAction;  // 右键菜单-设置
     QAction* quitAction;  // 右键菜单-退出
-    QClipboard* clipboard;  // 剪贴板对象
+
+    APP_j3pzCalc* App_j3pzCalc;  // 功能-代按计算器
 
     int initUI();
     void createActions();
     void createTrayIcon();
-    void clipbordListenerON();
-    void clipbordListenerOFF();
 
 private slots:  // 槽函数
     void onIconClicked(QSystemTrayIcon::ActivationReason reason);  // 鼠标点击图标
-    void onClipboradChanged();  // 剪贴板事件
-    void j3pzCalc(bool checked);  // 代按计算器
     void setting();  // 设置
+    void on_APP_j3pzCalc(bool checked);  // 代按计算器
+    void on_APP_j3pzCalc_main();
 };

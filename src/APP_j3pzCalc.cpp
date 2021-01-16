@@ -1,77 +1,125 @@
 #include "..\include\APP_j3pzCalc.h"
 
-QString APP_j3pzCalc::APP_j3pzCalc(QString xlsx_name, QString sheet_name, QString json_string) {
+QString APP_j3pzCalc::on(QString xlsx_path) {
+    QDir xlsx_dir(xlsx_path);
+    QStringList xlsx_files = xlsx_dir.entryList(QStringList("*.xlsx"), QDir::Files | QDir::Readable);
+    switch (xlsx_files.count()) {
+    case 1:
+        return init(xlsx_files[0]);
+    case 0:
+        return "找不到计算器Orz\n请将本exe和计算器xlsx放一起哦";
+    default:
+        return "找到多个xlsx\n暂不支持自动识别哪一个Orz\n请将本exe和计算器xlsx单独放一起哦";
+    }
+}
+
+QString APP_j3pzCalc::init(QString xlsx_name) {
+    clipboard = QGuiApplication::clipboard();
+    Application = new QAxObject("KET.Application");  // Kingsoft WPS
+    if (!Application->isNull()) {
+        ERR_APP = QString("[KET]");
+    } else {
+        Application = new QAxObject("Excel.Application");  // Microsoft Excel
+        if (!Application->isNull()) {
+            ERR_APP = QString("[Excel]");
+        } else {
+            return ERR(0);
+        }
+    }
+    // TODO: 用户手动结束Application进程
+    if (!Application->setProperty("DisplayAlerts", false)) return ERR(1);
+    Workbooks = Application->querySubObject("Workbooks");
+    if (Workbooks->isNull()) return ERR(2);
+    auto Workbooks_Count = Workbooks->property("Count");
+    if (!Workbooks_Count.isValid()) return ERR(3);
+    if (Workbooks_Count.toInt() != 0) return ERR(4) + Workbooks_Count.toString();
+    QFileInfo xlsx_file(xlsx_name);
+    Workbook = Workbooks->querySubObject("Open (QVariant)", QVariant(xlsx_file.absolutePath() + "/" + xlsx_name));
+    if (Workbook->isNull()) return ERR(5);
+    Workbooks_Count = Workbooks->property("Count");
+    if (!Workbooks_Count.isValid()) return ERR(6);
+    if (Workbooks_Count.toInt() != 1) return ERR(7) + Workbooks_Count.toString();
+    Worksheets = Workbook->querySubObject("Worksheets");
+    if (Worksheets->isNull()) return ERR(8);
+    auto Worksheets_Count = Worksheets->property("Count");
+    if (!Worksheets_Count.isValid()) return ERR(9);
+    if (Worksheets_Count.toInt() != 9) return ERR(10) + Worksheets_Count.toString();
+    Worksheet = Worksheets->querySubObject("Item (QVariant)", QVariant(sheet_name));
+    if (Worksheet->isNull()) return ERR(11);
+    return "";
+}
+
+QString APP_j3pzCalc::off() {
+    clipboard->destroyed();
+    //auto WPS_Workbook_Close = WPS_Workbook->dynamicCall("Close (QVariant)", QVariant(false));
+    //auto WPS_Workbooks_Close = WPS_Workbooks->querySubObject("Close");
+    //if (WPS_Workbooks_Close->isNull()) return "KET.Application: Workbooks.Close ERROR!";
+    //auto WPS_Application_Quit = WPS_Application->dynamicCall("Quit(void)");
+    //if (WPS_Application_Quit.isValid()) return "KET.Application: Application.Quit ERROR!";
+    Application->dynamicCall("Quit(void)");  // TODO: 真的Quit了吗？
+    Application->destroyed();
+    return "";
+}
+
+QString APP_j3pzCalc::main() {
+    clipboard = QGuiApplication::clipboard();
+    QString text = clipboard->text();
+    if (!text.isEmpty()) {
+        return main_xlsx(main_json(text));
+    } else {
+        return "";
+    }
+}
+
+QVector<QVariant> APP_j3pzCalc::main_json(QString json_string) {
     QJsonParseError err;
     QJsonDocument json_doc = QJsonDocument::fromJson(json_string.toUtf8(), &err);
-    if (err.error != QJsonParseError::NoError) return "解析JSON失败：" + err.errorString();
+    if (err.error != QJsonParseError::NoError) return { ERR(12) + err.errorString() };
     QVariantMap json_map = json_doc.toVariant().toMap();
     QVector<QVariant> p;
     for (QString k : keys) {
         if (!json_map.contains(k)) {
-            return "解析JSON失败：json_map.contains(\"" + k + "\") = false";
+            return { ERR(13) + k };
         } else {
             QVariant v = json_map.value(k);
             // if (v.type() != QVariant::Type::String || !v.convert(types[i]))  // TODO: 类型转换
-            if (v.type() != QVariant::Type::String)
-                return "解析JSON失败：" + k + "类型错误 (" + QString::number(v.type()) + ")";
-            p.append(v);
+            if (v.type() != QVariant::Type::String) {
+                return { ERR(14) + k + "." + QString::number(v.type()) };
+            }
+            p.append(QVariant(v.toString().right(1) == "%" ? v.toString().split('%')[0].toDouble() / 100 : v.toDouble()));
         }
     }
+    return p;
+}
+
+QString APP_j3pzCalc::main_xlsx(QVector<QVariant> p) {
+    if (p.count() != keys.count()) return p[0].toString();
     QString ret;
-    auto WPS_Application = new QAxObject("KET.Application");
-    if (WPS_Application->isNull()) return "找不到WPS：暂时仅支持WPS Orz";
-    if (!WPS_Application->setProperty("DisplayAlerts", false)) return "KET.Application: Application.DisplayAlerts ERROR!";
-    auto WPS_Workbooks = WPS_Application->querySubObject("Workbooks");
-    if (WPS_Workbooks->isNull()) return "KET.Application: Application.Workbooks ERROR!";
-    auto WPS_Workbooks_Count = WPS_Workbooks->property("Count");
-    if (!WPS_Workbooks_Count.isValid()) return "KET.Application: Workbooks.Count ERROR!";
-    if (WPS_Workbooks_Count.toInt() != 0) return "KET.Application: Workbooks.Count(=" + WPS_Workbooks_Count.toString() + ")!=0 ERROR!";
-    QFileInfo xlsx_file(xlsx_name);
-    if (!xlsx_file.exists()) return "找不到" + xlsx_name;
-    auto WPS_Workbook = WPS_Workbooks->querySubObject("Open (QVariant)", QVariant(xlsx_file.absolutePath() + "/" + xlsx_name));
-    if (WPS_Workbook->isNull()) return "KET.Application: Workbooks.Open ERROR!";
-    WPS_Workbooks_Count = WPS_Workbooks->property("Count");
-    if (!WPS_Workbooks_Count.isValid()) return "KET.Application: (After open)Workbooks.Count ERROR!";
-    if (WPS_Workbooks_Count.toInt() != 1) return "KET.Application: (After open)Workbooks.Count(=" + WPS_Workbooks_Count.toString() + ")!=1 ERROR!";
-    auto WPS_Worksheets = WPS_Workbook->querySubObject("Worksheets");
-    if (WPS_Worksheets->isNull()) return "KET.Application: Workbook.Worksheets ERROR!";
-    auto WPS_Worksheets_Count = WPS_Worksheets->property("Count");
-    if (!WPS_Worksheets_Count.isValid()) return "KET.Application: Worksheets.Count ERROR!";
-    if (WPS_Worksheets_Count.toInt() != 9) return "KET.Application: Worksheets.Count(=" + WPS_Worksheets_Count.toString() + ")!=9 ERROR!";
-    auto WPS_Worksheet = WPS_Worksheets->querySubObject("Item (QVariant)", QVariant(sheet_name));
-    if (WPS_Worksheet->isNull()) return "KET.Application: Worksheets.Item(" + sheet_name + ") ERROR!";
-    auto WPS_Worksheet_Name = WPS_Worksheet->property("Name");  // 
-    if (!WPS_Worksheet_Name.isValid()) return "KET.Application: Worksheet.Name ERROR!";  // 
     for (auto cell : cells) {
-        auto WPS_Range = WPS_Worksheet->querySubObject("Range (QVariant)", QVariant(cell));
-        if (WPS_Range->isNull()) return "KET.Application: Worksheet.Range(" + cell + ") ERROR!";
-        if (!WPS_Range->setProperty("Value2", p[cells.indexOf(cell)])) {
-            return "代按计算器失败：" + cell + ": " + p[cells.indexOf(cell)].toString();
+        auto Range = Worksheet->querySubObject("Range (QVariant)", QVariant(cell));
+        if (Range->isNull()) return ERR(15) + cell;
+        if (!Range->setProperty("Value2", p[cells.indexOf(cell)])) {
+            return ERR(16) + cell + "." + p[cells.indexOf(cell)].toString();
         } else {
-            auto WPS_Range_Value2 = WPS_Range->property("Value2");
-            if (!WPS_Range_Value2.isValid()) return "KET.Application: Range(\"" + cell + "\").Value2 ERROR!";
-            if (WPS_Range_Value2 != p[cells.indexOf(cell)])
-                ret += keys[cells.indexOf(cell)] + ":" + WPS_Range_Value2.toString() + "!=" + p[cells.indexOf(cell)].toString();
+            auto Range_Value2 = Range->property("Value2");
+            if (!Range_Value2.isValid()) return ERR(17) + cell;
+            if (Range_Value2.toDouble() != p[cells.indexOf(cell)].toDouble())
+                return keys[cells.indexOf(cell)] + ":" + Range_Value2.toString() + "!=" + p[cells.indexOf(cell)].toString();
         }
     }
-    auto DPS_Range0 = WPS_Worksheet->querySubObject("Range (QVariant)", QVariant(dps_cells[0]));
-    if (DPS_Range0->isNull()) return "KET.Application: Worksheet.Range(" + dps_cells[0] + ") ERROR!";
-    auto DPS_Range0_Value2 = DPS_Range0->property("Value2");
-    auto DPS_Range1 = WPS_Worksheet->querySubObject("Range (QVariant)", QVariant(dps_cells[1]));
-    if (DPS_Range1->isNull()) return "KET.Application: Worksheet.Range(" + dps_cells[1] + ") ERROR!";
-    auto DPS_Range1_Value2 = DPS_Range1->property("Value2");
-    ret = DPS_Range0_Value2.toString() + " DPS: " + QString::number(DPS_Range1_Value2.toDouble(), 'f', 0);
     //auto WPS_Worksheet_Calculate = WPS_Application->dynamicCall("Calculate ()");
     //if (!WPS_Worksheet_Calculate.isValid()) return "KET.Application: Worksheet.Calculate() ERROR!";
-    //auto WPS_Workbook_Close = WPS_Workbook->dynamicCall("Close (QVariant)", QVariant(false));
-    //auto WPS_Workbooks_Close = WPS_Workbooks->querySubObject("Close");
-    //if (WPS_Workbooks_Close->isNull()) return "KET.Application: Workbooks.Close ERROR!";
-    WPS_Application->dynamicCall("Quit(void)");  // TODO: 真的Quit了吗？
-    delete WPS_Application;
-    //auto WPS_Application_Quit = WPS_Application->dynamicCall("Quit(void)");
-    //if (WPS_Application_Quit.isValid()) return "KET.Application: Application.Quit ERROR!";
-    return ret;
-    // QXlsx方法
+    auto DPS_Range0 = Worksheet->querySubObject("Range (QVariant)", QVariant(dps_cells[0]));
+    if (DPS_Range0->isNull()) return ERR(15) + dps_cells[0];
+    auto DPS_Range0_Value2 = DPS_Range0->property("Value2");
+    if (!DPS_Range0_Value2.isValid()) return ERR(17) + dps_cells[0];
+    auto DPS_Range1 = Worksheet->querySubObject("Range (QVariant)", QVariant(dps_cells[1]));
+    if (DPS_Range1->isNull()) return ERR(15) + dps_cells[1];
+    auto DPS_Range1_Value2 = DPS_Range1->property("Value2");
+    if(!DPS_Range1_Value2.isValid()) return ERR(17) + dps_cells[1];
+    return DPS_Range0_Value2.toString() + " DPS: " + QString::number(DPS_Range1_Value2.toDouble(), 'f', 0);
+
+    // TODO: QXlsx方法
     //QXlsx::Document xlsx(xlsx_name);
     //if (xlsx.selectSheet(sheet_name)) {
     //    // TODO: std::for_each lambda

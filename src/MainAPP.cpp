@@ -13,6 +13,7 @@ int MainAPP::initUI() {
     createActions();
     createTrayIcon();
 
+    App_j3pzCalc = new APP_j3pzCalc();
     //connect(tray, &QSystemTrayIcon::activated, this, &MainAPP::onIconClicked);  // 把鼠标点击图标的信号和槽连接
 
     tray->show();
@@ -23,7 +24,7 @@ void MainAPP::createActions() {
     j3pzCalcAction = new QAction("代按计算器", this);
     j3pzCalcAction->setToolTip("请把本软件放在计算器xlsx同目录下\n目前仅支持天罗计算器");
     j3pzCalcAction->setCheckable(true);
-    connect(j3pzCalcAction, &QAction::toggled, this, &MainAPP::j3pzCalc);
+    connect(j3pzCalcAction, &QAction::toggled, this, &MainAPP::on_APP_j3pzCalc);
 
     settingAction = new QAction("设置", this);
     settingAction->setEnabled(false);
@@ -68,41 +69,31 @@ void MainAPP::onIconClicked(QSystemTrayIcon::ActivationReason reason) {
     }
 }
 
-void MainAPP::j3pzCalc(bool checked) {
+void MainAPP::on_APP_j3pzCalc(bool checked) {
     if (checked) {
-        clipbordListenerON();
-        tray->showMessage(description, "剪贴板监听中\n配装器导出数据-复制为JSON即可", icon);
-    } else {
-        clipbordListenerOFF();
-        tray->showMessage(description, "代按计算器——已关闭", icon);
-    }
-}
-
-void MainAPP::clipbordListenerON() {
-    clipboard = QGuiApplication::clipboard();
-    connect(clipboard, &QClipboard::dataChanged, this, &MainAPP::onClipboradChanged);
-}
-
-void MainAPP::clipbordListenerOFF() {
-    disconnect(clipboard, 0, 0, 0);
-    clipboard->destroyed();
-}
-
-void MainAPP::onClipboradChanged() {
-    clipboard = QGuiApplication::clipboard();
-    QString text = clipboard->text();
-    if (!text.isEmpty()) {
-        QDir xlsx_dir(QCoreApplication::applicationDirPath());
-        QStringList xlsx_files = xlsx_dir.entryList(QStringList("*.xlsx"), QDir::Files | QDir::Readable);
-        if (xlsx_files.count() == 1) {  // TODO 多个xlsx 文件名检验 版本检验 switch
-            QString dps = APP_j3pzCalc::APP_j3pzCalc(xlsx_files[0], sheet_name, text);
-            tray->showMessage("代按计算器", dps, icon);
+        QString ret = App_j3pzCalc->on(QCoreApplication::applicationDirPath());
+        if (ret.isEmpty()) {
+            connect(App_j3pzCalc->clipboard, &QClipboard::dataChanged, this, &MainAPP::on_APP_j3pzCalc_main);
+            tray->showMessage(App_j3pzCalc->description, "剪贴板监听中\n配装器导出数据-复制为JSON即可", icon);
         } else {
-            tray->showMessage("找不到计算器Orz", "请将本exe和计算器xlsx放一起哦", icon);
+            tray->showMessage(App_j3pzCalc->description, ret, icon);
+        }
+    } else {
+        QString ret = App_j3pzCalc->off();
+        if (ret.isEmpty()) {
+            disconnect(App_j3pzCalc->clipboard, 0, 0, 0);
+            tray->showMessage(App_j3pzCalc->description, "已关闭", icon);
+        } else {
+            tray->showMessage(App_j3pzCalc->description, ret, icon);
         }
     }
 }
 
+void MainAPP::on_APP_j3pzCalc_main() {
+    QString ret = App_j3pzCalc->main();
+    if (!ret.isEmpty())
+        tray->showMessage(App_j3pzCalc->description, ret, icon);
+}
 
 void MainAPP::setting() {
 
