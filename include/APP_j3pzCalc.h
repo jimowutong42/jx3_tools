@@ -9,6 +9,8 @@
 #include <QtGui/QGuiApplication>
 #include <QtGui/QClipboard>
 
+#define DEL(p) { if (p != NULL) { delete p; p = NULL; } }
+
 // 功能-代按计算器
 class APP_j3pzCalc {
 
@@ -26,13 +28,15 @@ public:
     QString ERR_APP;
     QStringList ERR_CODE;
 
-    QString sheet_name;  // 计算器工作簿名称
-    QStringList keys;
-    QStringList cells;
-    QStringList dps_cells;
+    QString kf;  // 心法
+    QMap<QString, QString> sheet_name;  // 心法对应计算器工作簿名称
+    QStringList all_keys;  // 所有属性
+    QMap<QString, QVector<qint32>> keys;  // 心法对应属性序号
+    QMap<QString, QStringList> cells;  // 心法对应属性单元格
+    QMap<QString, QStringList> dps_cells;  // 心法对应DPS单元格
 
 public:
-    APP_j3pzCalc()
+    APP_j3pzCalc(QString kongfu)
         : description(QString("代按计算器"))
         , clipboard(NULL)
         , Application(NULL)
@@ -61,15 +65,35 @@ public:
             "[E16] Range.Value2.w.",
             "[E17] Range.Value2.r.!isValid."
             }))
-        , sheet_name(QString("DPS计算器"))
-        , keys(QStringList({ "元气", "基础攻击", "攻击", "会心率", "会心效果", "无双率", "破防等级", "破招", "加速等级" }))
-        , cells(QStringList({ "H3", "H4", "H5", "H7", "H8", "H9", "H10", "H11", "F10" }))
-        , dps_cells(QStringList({ "V7","V8" })) {
+        , kf(kongfu)
+        , sheet_name({
+            { QString("tl"), QString("DPS计算器") },
+            { QString("jy"), QString("DPS计算器") }
+            })
+        , all_keys(QStringList({
+            // "气血", "体质", "基础治疗", "治疗", "外防率", "外防等级", "内防率", "内防等级", "闪避率", "闪避等级",
+            // "招架率", "招架等级", "拆招", "御劲率", "御劲等级", "化劲率", "化劲等级", "装分",
+            "元气", "根骨", "力道", "身法", "基础攻击", "攻击", "会心率", "会心等级", "会心效果", "会心效果等级",
+            "无双率", "无双等级", "破防率", "破防等级", "破招", "加速率", "加速等级"
+            }))
+        , keys({
+            { QString("tl"), { 0, 4, 5, 6, 8, 10, 13, 14, 16 } },
+            { QString("jy"), { 2, 4, 5, 14, 13, 16, 6, 8, 10 } }
+            })
+        , cells({
+            { QString("tl"), QStringList({ "H3", "H4", "H5", "H7", "H8", "H9", "H10", "H11", "F10" }) },
+            { QString("jy"), QStringList({ "H3", "H4", "H5", "H7", "H8", "H9", "F5", "F6", "F7" }) }
+            })
+        , dps_cells({
+            { QString("tl"), QStringList({ "V7","V8" }) },
+            { QString("jy"), QStringList({ "V7","V8" }) }
+            }) {
     };
     ~APP_j3pzCalc() {
         off();
+        DEL(Application);
     }
-    QString on(QString xlsx_path);  // 启用
+    QString on(QString xlsx_path);  // 开启
     QString init(QString xlsx_name);
     QString main();  // 主程序
     QVector<QVariant> main_json(QString json_string);

@@ -44,20 +44,25 @@ QString APP_j3pzCalc::init(QString xlsx_name) {
     auto Worksheets_Count = Worksheets->property("Count");
     if (!Worksheets_Count.isValid()) return ERR(9);
     if (Worksheets_Count.toInt() != 9) return ERR(10) + Worksheets_Count.toString();
-    Worksheet = Worksheets->querySubObject("Item (QVariant)", QVariant(sheet_name));
+    Worksheet = Worksheets->querySubObject("Item (QVariant)", QVariant(sheet_name[kf]));
     if (Worksheet->isNull()) return ERR(11);
     return "";
 }
 
 QString APP_j3pzCalc::off() {
-    clipboard->destroyed();
+    if (clipboard != NULL) {
+        clipboard->destroyed();
+    }
     //auto WPS_Workbook_Close = WPS_Workbook->dynamicCall("Close (QVariant)", QVariant(false));
     //auto WPS_Workbooks_Close = WPS_Workbooks->querySubObject("Close");
     //if (WPS_Workbooks_Close->isNull()) return "KET.Application: Workbooks.Close ERROR!";
     //auto WPS_Application_Quit = WPS_Application->dynamicCall("Quit(void)");
     //if (WPS_Application_Quit.isValid()) return "KET.Application: Application.Quit ERROR!";
-    Application->dynamicCall("Quit(void)");  // TODO: 真的Quit了吗？
-    Application->destroyed();
+    if (Application != NULL) {
+        Application->dynamicCall("Quit(void)");  // TODO: 真的Quit了吗？
+        Application->destroyed();
+        return "已关闭";
+    }
     return "";
 }
 
@@ -77,12 +82,12 @@ QVector<QVariant> APP_j3pzCalc::main_json(QString json_string) {
     if (err.error != QJsonParseError::NoError) return { ERR(12) + err.errorString() };
     QVariantMap json_map = json_doc.toVariant().toMap();
     QVector<QVariant> p;
-    for (QString k : keys) {
+    for (auto i : keys[kf]) {
+        QString k = all_keys[i];
         if (!json_map.contains(k)) {
             return { ERR(13) + k };
         } else {
             QVariant v = json_map.value(k);
-            // if (v.type() != QVariant::Type::String || !v.convert(types[i]))  // TODO: 类型转换
             if (v.type() != QVariant::Type::String) {
                 return { ERR(14) + k + "." + QString::number(v.type()) };
             }
@@ -93,30 +98,30 @@ QVector<QVariant> APP_j3pzCalc::main_json(QString json_string) {
 }
 
 QString APP_j3pzCalc::main_xlsx(QVector<QVariant> p) {
-    if (p.count() != keys.count()) return p[0].toString();
+    if (p.count() != keys[kf].count()) return p[0].toString();
     QString ret;
-    for (auto cell : cells) {
+    for (auto cell : cells[kf]) {
         auto Range = Worksheet->querySubObject("Range (QVariant)", QVariant(cell));
         if (Range->isNull()) return ERR(15) + cell;
-        if (!Range->setProperty("Value2", p[cells.indexOf(cell)])) {
-            return ERR(16) + cell + "." + p[cells.indexOf(cell)].toString();
+        if (!Range->setProperty("Value2", p[cells[kf].indexOf(cell)])) {
+            return ERR(16) + cell + "." + p[cells[kf].indexOf(cell)].toString();
         } else {
             auto Range_Value2 = Range->property("Value2");
             if (!Range_Value2.isValid()) return ERR(17) + cell;
-            if (Range_Value2.toDouble() != p[cells.indexOf(cell)].toDouble())
-                return keys[cells.indexOf(cell)] + ":" + Range_Value2.toString() + "!=" + p[cells.indexOf(cell)].toString();
+            if (Range_Value2.toDouble() != p[cells[kf].indexOf(cell)].toDouble())
+                return all_keys[keys[kf][cells[kf].indexOf(cell)]] + ":" + Range_Value2.toString() + "!=" + p[cells[kf].indexOf(cell)].toString();
         }
     }
     //auto WPS_Worksheet_Calculate = WPS_Application->dynamicCall("Calculate ()");
     //if (!WPS_Worksheet_Calculate.isValid()) return "KET.Application: Worksheet.Calculate() ERROR!";
-    auto DPS_Range0 = Worksheet->querySubObject("Range (QVariant)", QVariant(dps_cells[0]));
-    if (DPS_Range0->isNull()) return ERR(15) + dps_cells[0];
+    auto DPS_Range0 = Worksheet->querySubObject("Range (QVariant)", QVariant(dps_cells[kf][0]));
+    if (DPS_Range0->isNull()) return ERR(15) + dps_cells[kf][0];
     auto DPS_Range0_Value2 = DPS_Range0->property("Value2");
-    if (!DPS_Range0_Value2.isValid()) return ERR(17) + dps_cells[0];
-    auto DPS_Range1 = Worksheet->querySubObject("Range (QVariant)", QVariant(dps_cells[1]));
-    if (DPS_Range1->isNull()) return ERR(15) + dps_cells[1];
+    if (!DPS_Range0_Value2.isValid()) return ERR(17) + dps_cells[kf][0];
+    auto DPS_Range1 = Worksheet->querySubObject("Range (QVariant)", QVariant(dps_cells[kf][1]));
+    if (DPS_Range1->isNull()) return ERR(15) + dps_cells[kf][1];
     auto DPS_Range1_Value2 = DPS_Range1->property("Value2");
-    if(!DPS_Range1_Value2.isValid()) return ERR(17) + dps_cells[1];
+    if(!DPS_Range1_Value2.isValid()) return ERR(17) + dps_cells[kf][1];
     return DPS_Range0_Value2.toString() + " DPS: " + QString::number(DPS_Range1_Value2.toDouble(), 'f', 0);
 
     // TODO: QXlsx方法

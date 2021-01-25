@@ -1,47 +1,17 @@
 #include "..\include\MainAPP.h"
 
-MainAPP::MainAPP(QWidget* parent) : QMainWindow(parent) {
-    if (!initUI()) {
-        tray->showMessage(description, "欢迎大侠", icon);
-    }
-}
-
-int MainAPP::initUI() {
+bool MainAPP::initUI() {
     this->setWindowFlags(Qt::SplashScreen | Qt::WindowStaysOnTopHint);  // 主窗体全隐藏
     this->setWindowOpacity(0);  // 不透明度
 
-    createActions();
-    createTrayIcon();
-
-    App_j3pzCalc = new APP_j3pzCalc();
-    //connect(tray, &QSystemTrayIcon::activated, this, &MainAPP::onIconClicked);  // 把鼠标点击图标的信号和槽连接
-
-    tray->show();
-    return 0;
-}
-
-void MainAPP::createActions() {
-    j3pzCalcAction = new QAction("代按计算器", this);
-    j3pzCalcAction->setToolTip("请把本软件放在计算器xlsx同目录下\n目前仅支持天罗计算器");
-    j3pzCalcAction->setCheckable(true);
-    connect(j3pzCalcAction, &QAction::toggled, this, &MainAPP::on_APP_j3pzCalc);
-
-    settingAction = new QAction("设置", this);
-    settingAction->setEnabled(false);
-    settingAction->setToolTip("在做了在做了");
-    connect(settingAction, &QAction::triggered, this, &MainAPP::setting);
+    if (!initUI_j3pzCalc()) tray->showMessage(description, "初始化【代按计算器】失败", icon);
+    if (!initUI_setting()) tray->showMessage(description, "初始化【设置】失败", icon);
 
     quitAction = new QAction("退出", this);
     connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
-}
 
-void MainAPP::createTrayIcon() {
     menu = new QMenu(this);
-
-    funcMenu = menu->addMenu("功能");
-    funcMenu->addAction(j3pzCalcAction);
-    funcMenu->setToolTipsVisible(true);
-
+    menu->addMenu(j3pzCalcMenu);
     menu->addAction(settingAction);
     menu->addAction(quitAction);
     menu->setToolTipsVisible(true);
@@ -50,41 +20,75 @@ void MainAPP::createTrayIcon() {
     tray->setIcon(icon);  // 托盘图标
     tray->setToolTip(description);  // 悬停提示
     tray->setContextMenu(menu);
+
+    //connect(tray, &QSystemTrayIcon::activated, this, &MainAPP::onIconClicked);  // 把鼠标点击图标的信号和槽连接
+
+    tray->show();
+    return true;
 }
 
-void MainAPP::onIconClicked(QSystemTrayIcon::ActivationReason reason) {
-    switch (reason) {
-    case QSystemTrayIcon::DoubleClick:
-        //tray->showMessage(description, "双击左键", icon);
-        //break;
-    case QSystemTrayIcon::Trigger:
-        //tray->showMessage(description, "单击左键", icon);
-        tray->showMessage(description, "点击左键", icon);
-        break;
-    case QSystemTrayIcon::MiddleClick:
-        tray->showMessage(description, "点击中键", icon);
-        break;
-    default:
-        break;
-    }
+bool MainAPP::initUI_j3pzCalc() {
+    QList<QAction*> j3pzCalcActionList;
+    j3pzCalcActionGroup = new QActionGroup(this);
+
+    std::for_each(KF.keyBegin(), KF.keyEnd(), [&](QString text) { j3pzCalcActionList.prepend(new QAction(text, this)); });
+    std::for_each(j3pzCalcActionList.begin(), j3pzCalcActionList.end(), [&](QAction* q) { 
+        q->setIcon(QIcon(":/kongfu/" + KF[q->text()] + ".png"));
+        q->setCheckable(true);
+        j3pzCalcActionGroup->addAction(q);
+    });
+    j3pzCalcActionGroup->setExclusive(true);
+    j3pzCalcActionGroup->actions().last()->setChecked(true);
+    connect(j3pzCalcActionGroup, &QActionGroup::triggered, this, &MainAPP::on_APP_j3pzCalc);
+
+    j3pzCalcMenu = new QMenu("代按计算器", this);
+    j3pzCalcMenu->addActions(j3pzCalcActionList);
+    j3pzCalcMenu->setToolTip("请把本软件放在计算器xlsx同目录下\n目前仅支持唐门计算器");
+    j3pzCalcMenu->setToolTipsVisible(true);
+
+    return true;
 }
 
-void MainAPP::on_APP_j3pzCalc(bool checked) {
-    if (checked) {
-        QString ret = App_j3pzCalc->on(QCoreApplication::applicationDirPath());
-        if (ret.isEmpty()) {
-            connect(App_j3pzCalc->clipboard, &QClipboard::dataChanged, this, &MainAPP::on_APP_j3pzCalc_main);
-            tray->showMessage(App_j3pzCalc->description, "剪贴板监听中\n配装器导出数据-复制为JSON即可", icon);
-        } else {
-            tray->showMessage(App_j3pzCalc->description, ret, icon);
-        }
-    } else {
-        QString ret = App_j3pzCalc->off();
-        if (ret.isEmpty()) {
-            disconnect(App_j3pzCalc->clipboard, 0, 0, 0);
-            tray->showMessage(App_j3pzCalc->description, "已关闭", icon);
-        } else {
-            tray->showMessage(App_j3pzCalc->description, ret, icon);
+bool MainAPP::initUI_setting() {
+    settingAction = new QAction("设置", this);
+    settingAction->setEnabled(false);
+    settingAction->setToolTip("在做了在做了");
+    connect(settingAction, &QAction::triggered, this, &MainAPP::on_setting);
+
+    return true;
+}
+
+void MainAPP::on_APP_j3pzCalc(QAction* q) {
+    for (auto a : j3pzCalcActionGroup->actions()) {
+        if (q->text().compare(a->text()) == 0) {
+            if (q->text().compare(j3pzCalcActionGroup->actions().last()->text()) == 0) {  // 关闭
+                if (App_j3pzCalc != NULL) {  // 开启->关闭
+                    QString ret = App_j3pzCalc->off();
+                    if (!ret.isEmpty()) {
+                        disconnect(App_j3pzCalc->clipboard, 0, 0, 0);
+                        tray->showMessage(App_j3pzCalc->description, ret, icon);
+                    }
+                    DEL(App_j3pzCalc);
+                }
+            } else {  // 开启
+                // TODO: 切换心法，不结束进程进行切换
+                if (App_j3pzCalc == NULL) {  // 关闭->开启
+                    App_j3pzCalc = new APP_j3pzCalc(KF[q->text()]);
+                } else {  // 开启->开启
+                    if (KF[q->text()].compare(App_j3pzCalc->kf) != 0) {  // 切换了心法
+                        DEL(App_j3pzCalc);
+                        App_j3pzCalc = new APP_j3pzCalc(KF[q->text()]);
+                    }
+                }
+                QString ret = App_j3pzCalc->on(QCoreApplication::applicationDirPath());
+                if (ret.isEmpty()) {
+                    connect(App_j3pzCalc->clipboard, &QClipboard::dataChanged, this, &MainAPP::on_APP_j3pzCalc_main);
+                    tray->showMessage(App_j3pzCalc->description, "剪贴板监听中\n配装器导出数据-复制为JSON即可\n请检查计算器xlsx是否为" + q->text() + "DPS计算器", icon);
+                } else {
+                    j3pzCalcActionGroup->actions().last()->setChecked(true);
+                    tray->showMessage(App_j3pzCalc->description, ret, icon);
+                }
+            }
         }
     }
 }
@@ -95,6 +99,23 @@ void MainAPP::on_APP_j3pzCalc_main() {
         tray->showMessage(App_j3pzCalc->description, ret, icon);
 }
 
-void MainAPP::setting() {
+void MainAPP::on_setting() {
 
 }
+
+//void MainAPP::onIconClicked(QSystemTrayIcon::ActivationReason reason) {
+//    switch (reason) {
+//    case QSystemTrayIcon::DoubleClick:
+//        //tray->showMessage(description, "双击左键", icon);
+//        //break;
+//    case QSystemTrayIcon::Trigger:
+//        //tray->showMessage(description, "单击左键", icon);
+//        tray->showMessage(description, "点击左键", icon);
+//        break;
+//    case QSystemTrayIcon::MiddleClick:
+//        tray->showMessage(description, "点击中键", icon);
+//        break;
+//    default:
+//        break;
+//    }
+//}

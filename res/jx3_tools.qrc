@@ -1,5 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>ptt.png</file>
+        <file>kongfu/jy.png</file>
+        <file>kongfu/tl.png</file>
+        <file>kongfu/off.png</file>
     </qresource>
 </RCC>
