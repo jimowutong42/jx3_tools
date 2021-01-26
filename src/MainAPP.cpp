@@ -1,18 +1,26 @@
 #include "..\include\MainAPP.h"
 
-bool MainAPP::initUI() {
+void MainAPP::initUI() {
     this->setWindowFlags(Qt::SplashScreen | Qt::WindowStaysOnTopHint);  // 主窗体全隐藏
     this->setWindowOpacity(0);  // 不透明度
 
-    if (!initUI_j3pzCalc()) tray->showMessage(description, "初始化【代按计算器】失败", icon);
-    if (!initUI_setting()) tray->showMessage(description, "初始化【设置】失败", icon);
+    initUI_j3pzCalc();
+    initUI_slSudoku();
+    initUI_keju();
+    initUI_kaifu();
+    initUI_wujia();
+    initUI_about();
 
     quitAction = new QAction("退出", this);
     connect(quitAction, &QAction::triggered, qApp, &QCoreApplication::quit);
 
     menu = new QMenu(this);
     menu->addMenu(j3pzCalcMenu);
-    menu->addAction(settingAction);
+    menu->addAction(slSudokuAction);
+    menu->addAction(kejuAction);
+    menu->addAction(kaifuAction);
+    menu->addAction(wujiaAction);
+    menu->addAction(aboutAction);
     menu->addAction(quitAction);
     menu->setToolTipsVisible(true);
 
@@ -24,10 +32,10 @@ bool MainAPP::initUI() {
     //connect(tray, &QSystemTrayIcon::activated, this, &MainAPP::onIconClicked);  // 把鼠标点击图标的信号和槽连接
 
     tray->show();
-    return true;
+    tray->showMessage(description, "欢迎大侠", icon);
 }
 
-bool MainAPP::initUI_j3pzCalc() {
+void MainAPP::initUI_j3pzCalc() {
     QList<QAction*> j3pzCalcActionList;
     j3pzCalcActionGroup = new QActionGroup(this);
 
@@ -45,17 +53,41 @@ bool MainAPP::initUI_j3pzCalc() {
     j3pzCalcMenu->addActions(j3pzCalcActionList);
     j3pzCalcMenu->setToolTip("请把本软件放在计算器xlsx同目录下\n目前仅支持唐门计算器");
     j3pzCalcMenu->setToolTipsVisible(true);
-
-    return true;
 }
 
-bool MainAPP::initUI_setting() {
-    settingAction = new QAction("设置", this);
-    settingAction->setEnabled(false);
-    settingAction->setToolTip("在做了在做了");
-    connect(settingAction, &QAction::triggered, this, &MainAPP::on_setting);
+void MainAPP::initUI_slSudoku() {
+    slSudokuAction = new QAction("试炼之地九宫格计算器", this);
+    slSudokuAction->setEnabled(false);
+    slSudokuAction->setToolTip("在做了在做了");
+    connect(slSudokuAction, &QAction::triggered, this, &MainAPP::on_APP_slSudoku);
+}
 
-    return true;
+void MainAPP::initUI_keju() {
+    kejuAction = new QAction("科举助手", this);
+    kejuAction->setEnabled(false);
+    kejuAction->setToolTip("在做了在做了");
+    connect(kejuAction, &QAction::triggered, this, &MainAPP::on_APP_keju);
+}
+
+void MainAPP::initUI_kaifu() {
+    kaifuAction = new QAction("开服监控", this);
+    kaifuAction->setEnabled(false);
+    kaifuAction->setToolTip("在做了在做了");
+    connect(kaifuAction, &QAction::triggered, this, &MainAPP::on_APP_kaifu);
+}
+
+void MainAPP::initUI_wujia() {
+    wujiaAction = new QAction("物价查询", this);
+    wujiaAction->setEnabled(false);
+    wujiaAction->setToolTip("在做了在做了");
+    connect(wujiaAction, &QAction::triggered, this, &MainAPP::on_APP_wujia);
+}
+
+void MainAPP::initUI_about() {
+    aboutAction = new QAction("关于", this);
+    aboutAction->setEnabled(false);
+    aboutAction->setToolTip("在做了在做了");
+    connect(aboutAction, &QAction::triggered, this, &MainAPP::on_about);
 }
 
 void MainAPP::on_APP_j3pzCalc(QAction* q) {
@@ -99,7 +131,23 @@ void MainAPP::on_APP_j3pzCalc_main() {
         tray->showMessage(App_j3pzCalc->description, ret, icon);
 }
 
-void MainAPP::on_setting() {
+void MainAPP::on_APP_slSudoku() {
+
+}
+
+void MainAPP::on_APP_keju() {
+
+}
+
+void MainAPP::on_APP_kaifu() {
+
+}
+
+void MainAPP::on_APP_wujia() {
+
+}
+
+void MainAPP::on_about() {
 
 }
 

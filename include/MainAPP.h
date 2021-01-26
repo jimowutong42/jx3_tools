@@ -19,12 +19,14 @@ public:
         , menu(NULL)
         , j3pzCalcMenu(NULL)
         , j3pzCalcActionGroup(NULL)
-        , settingAction(NULL)
+        , slSudokuAction(NULL)
+        , kejuAction(NULL)
+        , kaifuAction(NULL)
+        , wujiaAction(NULL)
+        , aboutAction(NULL)
         , quitAction(NULL)
         , App_j3pzCalc(NULL) {
-        if (initUI()) {
-            tray->showMessage(description, "欢迎大侠", icon);
-        }
+        initUI();
     };
     ~MainAPP() {
         DEL(App_j3pzCalc);
@@ -37,21 +39,57 @@ private:
 
     QSystemTrayIcon* tray;  // 托盘对象
     QMenu* menu;  // 右键菜单对象
-    QMenu* j3pzCalcMenu;  // 右键菜单-代按计算器菜单
-    QActionGroup* j3pzCalcActionGroup;  // 右键菜单-代按计算器菜单-选项组
 
-    QAction* settingAction;  // 右键菜单-设置
-    QAction* quitAction;  // 右键菜单-退出
+    // 右键菜单-代按计算器
+    QMenu* j3pzCalcMenu;
+    QActionGroup* j3pzCalcActionGroup;
+
+    // 右键菜单-试炼之地九宫格计算器
+    QAction* slSudokuAction;
+
+    // 右键菜单-科举助手
+    QAction* kejuAction;
+
+    // 右键菜单-开服监控
+    QAction* kaifuAction;
+
+    // 右键菜单-物价查询
+    QAction* wujiaAction;
+
+    // 右键菜单-关于
+    QAction* aboutAction;
+
+    // 右键菜单-退出
+    QAction* quitAction;
 
     APP_j3pzCalc* App_j3pzCalc;  // 功能-代按计算器
 
-    bool initUI();
-    bool initUI_j3pzCalc();
-    bool initUI_setting();
+    void initUI();
+    void initUI_j3pzCalc();
+    void initUI_slSudoku();
+    void initUI_keju();
+    void initUI_kaifu();
+    void initUI_wujia();
+    void initUI_about();
 
 private slots:  // 槽函数
-    //void onIconClicked(QSystemTrayIcon::ActivationReason reason);  // 鼠标点击图标
-    void on_APP_j3pzCalc(QAction* q);  // 代按计算器
+    // 代按计算器
+    void on_APP_j3pzCalc(QAction* q);
     void on_APP_j3pzCalc_main();
-    void on_setting();  // 设置
+
+    // 试炼之地九宫格计算器
+    void on_APP_slSudoku();
+
+    // 科举助手
+    void on_APP_keju();
+
+    // 开服监控
+    void on_APP_kaifu();
+
+    // 物价查询
+    void on_APP_wujia();
+
+    // 关于
+    void on_about();
+    //void onIconClicked(QSystemTrayIcon::ActivationReason reason);  // 鼠标点击图标
 };

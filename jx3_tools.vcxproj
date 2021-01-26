@@ -102,10 +102,6 @@
     <ResourceCompile Include="res\jx3_tools.rc" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\ptt.ico" />
-    <Image Include="res\ptt.png" />
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxabstractooxmlfile.cpp" />
     <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxabstractsheet.cpp" />
     <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxcell.cpp" />

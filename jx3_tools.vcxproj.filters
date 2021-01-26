@@ -40,14 +40,6 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="res\ptt.ico">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="res\ptt.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
     <ClCompile Include="3rdparty\qtxlsxwriter\src\xlsx\xlsxabstractooxmlfile.cpp">
       <Filter>Source Files\3rdparty%255cQtXlsxWriter%255csrc%255cxlsx</Filter>
     </ClCompile>
